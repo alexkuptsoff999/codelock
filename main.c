@@ -1217,8 +1217,11 @@ int main (void)
 					}
 					if (i > 0)
 					{
-						eeprom_busy_wait();
-						eeprom_write_dword(4, 0);
+						if (i < 50)
+						{
+							eeprom_busy_wait();
+							eeprom_write_dword(4, 0);
+						}
 					}
 					if (i > 50)
 					{
