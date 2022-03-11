@@ -50,7 +50,7 @@ int main (void)
 		all_on = 999;
 	}
 //--------------------------------------------------------------------------	
-	uint32_t period_on;
+	uint8_t period_on;
 	eeprom_busy_wait();
 	period_on = eeprom_read_dword(4);
 	if (period_on >= 99)
@@ -1215,17 +1215,30 @@ int main (void)
 						i++;
 						_delay_ms(30);
 					}
-					if (i > 0 && i < 50)
+					if (i < 50)
 					{
 						eeprom_busy_wait();
 						eeprom_write_dword(4, 0);
 					}
-					if (i > 50)
+					if (i >= 50 && i < 300)
 					{
 						eeprom_busy_wait();
 						eeprom_write_dword(0, 0);
 						eeprom_busy_wait();
 						eeprom_write_dword(8, 0);
+					}
+					if (i >= 300 && i < 500)
+					{
+						eeprom_busy_wait();
+						eeprom_write_dword(12, 1111);
+					}
+					if (i >= 500)
+					{
+						for(n=16; n<129; n++)
+						{
+							eeprom_busy_wait();
+							eeprom_write_byte(n, 0xFF);
+						}
 					}
 					lcdClear();
 					_delay_ms(30);
